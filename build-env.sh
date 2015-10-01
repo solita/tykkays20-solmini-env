@@ -10,3 +10,10 @@ mkdir -p /tykkays20/html && \
 docker run --name tykkays20-nginx \
   -e VIRTUAL_HOST=tmp2-tykkays20 \
   -v /tykkays20/html:/usr/share/nginx/html:ro -d nginx
+# Jenkins master
+docker run -d --name jenkins-master \
+  -e VIRTUAL_HOST=jenkins.tykkays20.solita.fi \
+  -e VIRTUAL_PORT=8080 \
+  -e "JAVA_OPTS=-Duser.timezone=EET -Dfile.encoding=UTF8" \
+  -p 8080:8080 -p 50000:50000 \
+  sirkkalap/jenkins-swarm-w-git-manual:latest
