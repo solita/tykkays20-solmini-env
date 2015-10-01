@@ -1,3 +1,4 @@
+#!/bin/sh
 yum update
 curl -sSL https://get.docker.com/ | sh
 service docker start
