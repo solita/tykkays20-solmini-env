@@ -7,7 +7,8 @@ oikeuksin.
 
 ## Vaatimukset
 
-RHEL7, internet, levytilaa, ylläpito-oikeudet
+RHEL7, internet, levytilaa, ylläpito-oikeudet, DNS cname *.tykkays20.solita.fi osoittamaan palvelimelle
+tai clienteille hosts tiedosto
 
 ## Ympäristön pystytys
 
@@ -20,15 +21,10 @@ build-env.sh
 , joka asentaa:
 
  - Dockerin
- - nginx reverse proxyn
- - nginx palvelun, ja laittaa sinne tarjolle
+ - nginx front reverse proxyn virtual host automaatilla
+ - solmini demo palvelun (nginx), ja laittaa sinne tarjolle Hello, world! sivun.
+ - Jenkins CI palvelimen
 
 Käy selaimella osotteessa:
 
-`solmini.tykkays20.solita.fi`
-
-Jos nimipalvelu ei toimi, lisää kyseinen osoite ensin käsin koneesi nimipalveluun.
-
-Esimerkiksi:
-
-`sudo echo "80.69.173.135 solmini.tykkays20.solita.fi" >> /etc/hosts`
+`solmini.tykkays20.solita.fi` tai `jenkins.tykkays20.solita.fi`
