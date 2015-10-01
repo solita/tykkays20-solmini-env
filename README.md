@@ -11,12 +11,24 @@ RHEL7, internet, levytilaa, ylläpito-oikeudet
 
 ## Ympäristön pystytys
 
-Asennetaan Docker
+Suorita skripti:
 
-TODO CURL SH
+````bash
+build-env.sh
+````
 
-Asennetaan nginx reverse proxy
+, joka asentaa:
 
-Asennetaan nginx palvelu
+ - Dockerin
+ - nginx reverse proxyn
+ - nginx palvelun, ja laittaa sinne tarjolle
 
-##
+Käy selaimella osotteessa:
+
+`solmini.tykkays20.solita.fi`
+
+Jos nimipalvelu ei toimi, lisää kyseinen osoite ensin käsin koneesi nimipalveluun.
+
+Esimerkiksi:
+
+`sudo echo "80.69.173.135 solmini.tykkays20.solita.fi" >> /etc/hosts`
