@@ -2,16 +2,22 @@
 yum update
 curl -sSL https://get.docker.com/ | sh
 service docker start
+
+# Front reverse proxy with virtual host autoconfiguration
+# *** Privileged docker container ***
 docker run -d -p 80:80 \
   -v /var/run/docker.sock:/tmp/docker.sock:ro \
   jwilder/nginx-proxy
-# Generate html content
+
+# Generate html content for solmini demo
 mkdir -p /tykkays20/html && \
   echo '<html><body>Hello, world!</body></html>' >/tykkays20/html/index.html
 
-docker run --name tykkays20-nginx \
-  -e VIRTUAL_HOST=tmp2-tykkays20 \
+# Solmini demo "Hello, world!"
+docker run --name solmini \
+  -e VIRTUAL_HOST=solmini.tykkays20.solita.fi \
   -v /tykkays20/html:/usr/share/nginx/html:ro -d nginx
+
 # Jenkins master
 docker run -d --name jenkins-master \
   -e VIRTUAL_HOST=jenkins.tykkays20.solita.fi \
