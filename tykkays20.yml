@@ -1,0 +1,59 @@
+---
+- hosts: all
+  sudo: no
+
+  tasks:
+
+    # TODO: Docker installation
+    # TODO: Generate /tykkays20/html/index.html file
+
+    - name: front-rev-proxy
+      docker:
+        name: front-rev-proxy
+        volumes:
+            - /var/run/docker.sock:/tmp/docker.sock
+        ports: "80:80"
+        image: jwilder/nginx-proxy
+        name: nginx-proxy
+
+    - name: jenkins-master
+      docker:
+        env: "VIRTUAL_HOST=jenkins.solmini.tykkays20.{{ domain }},VIRTUAL_PORT=8080,JAVA_OPTS=-Duser.timezone=EET -Dfile.encoding=UTF8"
+        volumes_from: jenkins-volumes
+        volumes: /etc/localtime:/etc/localtime:ro
+        ports: "8080:8080,50000:50000"
+        image: sirkkalap/jenkins-swarm-w-git-manual:latest
+        name: jenkins-master
+
+    - name: dev-tykkays20
+      docker:
+        name: dev-tykkays20
+        volumes:
+            - /tykkays20/html:/usr/share/nginx/html:ro
+        env: "VIRTUAL_HOST=dev.solmini.tykkays20.{{ domain }}"
+        image: nginx:latest
+
+    - name: test-tykkays20
+      docker:
+        name: test-tykkays20
+        volumes:
+            - /tykkays20/html:/usr/share/nginx/html:ro
+        env: "VIRTUAL_HOST=test.solmini.tykkays20.{{ domain }}"
+        image: nginx:latest
+
+    - name: qa-tykkays20
+      docker:
+        name: qa-tykkays20
+        volumes:
+            - /tykkays20/html:/usr/share/nginx/html:ro
+        env: "VIRTUAL_HOST=qa.solmini.tykkays20.{{ domain }}"
+        image: nginx:latest
+
+    - name: prod-tykkays20
+      docker:
+        name: prod-tykkays20
+        volumes:
+            - /tykkays20/html:/usr/share/nginx/html:ro
+        env: "VIRTUAL_HOST=prod.solmini.tykkays20.{{ domain }}"
+        image: nginx:latest
+
