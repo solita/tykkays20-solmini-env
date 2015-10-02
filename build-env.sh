@@ -22,7 +22,6 @@ done
 
 # Jenkins master
 docker run -d --name jenkins-master \
-  -e VIRTUAL_HOST=jenkins.tykkays20.solita.fi \
   -e VIRTUAL_HOST=jenkins.solmini.tykkays20.solita.fi \
   -e VIRTUAL_PORT=8080 \
   -e "JAVA_OPTS=-Duser.timezone=EET -Dfile.encoding=UTF8" \
