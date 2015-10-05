@@ -18,7 +18,7 @@
 
     - name: jenkins-master
       docker:
-        env: "VIRTUAL_HOST=jenkins.solmini.tykkays20.{{ domain }},VIRTUAL_PORT=8080,JAVA_OPTS=-Duser.timezone=EET -Dfile.encoding=UTF8"
+        env: "VIRTUAL_HOST=jenkins.{{ domain }},VIRTUAL_PORT=8080,JAVA_OPTS=-Duser.timezone=EET -Dfile.encoding=UTF8"
         volumes_from: jenkins-volumes
         volumes: /etc/localtime:/etc/localtime:ro
         ports: "8080:8080,50000:50000"
@@ -30,7 +30,7 @@
         name: dev-tykkays20
         volumes:
             - /tykkays20/html:/usr/share/nginx/html:ro
-        env: "VIRTUAL_HOST=dev.solmini.tykkays20.{{ domain }}"
+        env: "VIRTUAL_HOST=dev.{{ domain }}"
         image: nginx:latest
 
     - name: test-tykkays20
@@ -38,7 +38,7 @@
         name: test-tykkays20
         volumes:
             - /tykkays20/html:/usr/share/nginx/html:ro
-        env: "VIRTUAL_HOST=test.solmini.tykkays20.{{ domain }}"
+        env: "VIRTUAL_HOST=test.{{ domain }}"
         image: nginx:latest
 
     - name: qa-tykkays20
@@ -46,7 +46,7 @@
         name: qa-tykkays20
         volumes:
             - /tykkays20/html:/usr/share/nginx/html:ro
-        env: "VIRTUAL_HOST=qa.solmini.tykkays20.{{ domain }}"
+        env: "VIRTUAL_HOST=qa.{{ domain }}"
         image: nginx:latest
 
     - name: prod-tykkays20
@@ -54,6 +54,6 @@
         name: prod-tykkays20
         volumes:
             - /tykkays20/html:/usr/share/nginx/html:ro
-        env: "VIRTUAL_HOST=prod.solmini.tykkays20.{{ domain }}"
+        env: "VIRTUAL_HOST=prod.{{ domain }}"
         image: nginx:latest
 
