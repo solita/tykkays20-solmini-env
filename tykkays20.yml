@@ -1,8 +1,9 @@
 ---
 - hosts: all
+  sudo: yes
   roles:
-    docker
-    hello
+    - docker-confirm
+    - hello
 
   tasks:
     - name: front-rev-proxy
@@ -14,16 +15,15 @@
         image: jwilder/nginx-proxy
         name: nginx-proxy
 
-    - name: jenkins-master
+    - name: jenkins-master ~ 689 MB
       docker:
         env: "VIRTUAL_HOST=jenkins.{{ domain }},VIRTUAL_PORT=8080,JAVA_OPTS=-Duser.timezone=EET -Dfile.encoding=UTF8"
-        volumes_from: jenkins-volumes
         volumes: /etc/localtime:/etc/localtime:ro
         ports: "8080:8080,50000:50000"
         image: sirkkalap/jenkins-swarm-w-git-manual:latest
         name: jenkins-master
 
-    - name: dev-tykkays20
+    - name: dev-tykkays20 ~ 52 MB
       docker:
         name: dev-tykkays20
         volumes:
@@ -31,7 +31,7 @@
         env: "VIRTUAL_HOST=dev.{{ domain }}"
         image: nginx:latest
 
-    - name: test-tykkays20
+    - name: test-tykkays20 (should be cached now)
       docker:
         name: test-tykkays20
         volumes:
@@ -39,7 +39,7 @@
         env: "VIRTUAL_HOST=test.{{ domain }}"
         image: nginx:latest
 
-    - name: qa-tykkays20
+    - name: qa-tykkays20 (should be cached now)
       docker:
         name: qa-tykkays20
         volumes:
@@ -47,11 +47,10 @@
         env: "VIRTUAL_HOST=qa.{{ domain }}"
         image: nginx:latest
 
-    - name: prod-tykkays20
+    - name: prod-tykkays20 (should be cached now)
       docker:
         name: prod-tykkays20
         volumes:
             - /data/hello/usr/share/nginx/html:/usr/share/nginx/html:ro
         env: "VIRTUAL_HOST=prod.{{ domain }}"
         image: nginx:latest
-

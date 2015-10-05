@@ -1,2 +1,3 @@
+---
 - name: Upload default index.html for host
-      copy: src=index.html dest=/data/solmini-hello/usr/share/nginx/www/ mode=0644
+  copy: src=index.html dest=/data/hello/usr/share/nginx/html/ mode=0644
