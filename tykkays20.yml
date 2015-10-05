@@ -1,12 +1,10 @@
 ---
 - hosts: all
-  sudo: no
+  roles:
+    docker
+    hello
 
   tasks:
-
-    # TODO: Docker installation
-    # TODO: Generate /tykkays20/html/index.html file
-
     - name: front-rev-proxy
       docker:
         name: front-rev-proxy
@@ -29,7 +27,7 @@
       docker:
         name: dev-tykkays20
         volumes:
-            - /tykkays20/html:/usr/share/nginx/html:ro
+            - /data/hello/usr/share/nginx/html:/usr/share/nginx/html:ro
         env: "VIRTUAL_HOST=dev.{{ domain }}"
         image: nginx:latest
 
@@ -37,7 +35,7 @@
       docker:
         name: test-tykkays20
         volumes:
-            - /tykkays20/html:/usr/share/nginx/html:ro
+            - /data/hello/usr/share/nginx/html:/usr/share/nginx/html:ro
         env: "VIRTUAL_HOST=test.{{ domain }}"
         image: nginx:latest
 
@@ -45,7 +43,7 @@
       docker:
         name: qa-tykkays20
         volumes:
-            - /tykkays20/html:/usr/share/nginx/html:ro
+            - /data/hello/usr/share/nginx/html:/usr/share/nginx/html:ro
         env: "VIRTUAL_HOST=qa.{{ domain }}"
         image: nginx:latest
 
@@ -53,7 +51,7 @@
       docker:
         name: prod-tykkays20
         volumes:
-            - /tykkays20/html:/usr/share/nginx/html:ro
+            - /data/hello/usr/share/nginx/html:/usr/share/nginx/html:ro
         env: "VIRTUAL_HOST=prod.{{ domain }}"
         image: nginx:latest
 
