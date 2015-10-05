@@ -1,0 +1,5 @@
+[dev]
+solmini.tykkays20.solita.fi
+
+[dev:vars]
+domain="solmini.tykkays20.solita.fi"
