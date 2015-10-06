@@ -5,7 +5,7 @@ Minimalistinen Solitan infraan nivoutuva projekti-infra.
 Toteutus yksinkertainen Shell-skripti, joka ajetaan RHEL7 koneessa ylläpito-
 oikeuksin.
 
-![Solita MINI deploy](img/Solita MINI deploy.png)
+![Solita MINI deploy](Solita MINI deploy.png)
 
 ## Vaatimukset
 
