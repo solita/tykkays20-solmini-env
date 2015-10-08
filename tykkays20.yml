@@ -1,12 +1,25 @@
 ---
 - hosts: all
   sudo: yes
+
+  # docker-confirm is a workaround for RHEL docker-py issue
+  # see: https://blog.confirm.ch/docker-ansible-on-rhel-centos-7/
   roles:
+    # - { role: docker-confirm, when: ansible_os_family == 'RedHat' }
+    # - { role: docker-marklee77, when: ansible_os_family != 'RedHat' }
+    - { role: mhamrah/docker }
     - docker-confirm
     - hello
-
   tasks:
-    - name: front-rev-proxy
+    # https://github.com/docker/distribution/blob/master/docs/deploying.md
+    - name: docker-registry ~ 72 MB
+      docker:
+        name: docker-registry
+        ports: "5000:5000"
+        image: registry:2
+        restart_policy: always
+
+    - name: front-rev-proxy ~ 70 MB
       docker:
         name: front-rev-proxy
         volumes:
@@ -14,14 +27,17 @@
         ports: "80:80"
         image: jwilder/nginx-proxy
         name: nginx-proxy
+        restart_policy: always
 
     - name: jenkins-master ~ 689 MB
       docker:
         env: "VIRTUAL_HOST=jenkins.{{ domain }},VIRTUAL_PORT=8080,JAVA_OPTS=-Duser.timezone=EET -Dfile.encoding=UTF8"
         volumes: /etc/localtime:/etc/localtime:ro
         ports: "8080:8080,50000:50000"
+        links: docker-registry:registry
         image: sirkkalap/jenkins-swarm-w-git-manual:latest
         name: jenkins-master
+        restart_policy: always
 
     - name: dev-tykkays20 ~ 52 MB
       docker:
@@ -30,27 +46,31 @@
             - /data/hello/usr/share/nginx/html:/usr/share/nginx/html:ro
         env: "VIRTUAL_HOST=dev.{{ domain }}"
         image: nginx:latest
+        restart_policy: always
 
-    - name: test-tykkays20 (should be cached now)
+    - name: test-tykkays20 (should have been cached by now)
       docker:
         name: test-tykkays20
         volumes:
             - /data/hello/usr/share/nginx/html:/usr/share/nginx/html:ro
         env: "VIRTUAL_HOST=test.{{ domain }}"
         image: nginx:latest
+        restart_policy: always
 
-    - name: qa-tykkays20 (should be cached now)
+    - name: qa-tykkays20 (should have been cached by now)
       docker:
         name: qa-tykkays20
         volumes:
             - /data/hello/usr/share/nginx/html:/usr/share/nginx/html:ro
         env: "VIRTUAL_HOST=qa.{{ domain }}"
         image: nginx:latest
+        restart_policy: always
 
-    - name: prod-tykkays20 (should be cached now)
+    - name: prod-tykkays20 (should have been cached by now)
       docker:
         name: prod-tykkays20
         volumes:
             - /data/hello/usr/share/nginx/html:/usr/share/nginx/html:ro
         env: "VIRTUAL_HOST=prod.{{ domain }}"
         image: nginx:latest
+        restart_policy: always

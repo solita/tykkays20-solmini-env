@@ -4,6 +4,9 @@
 [submodule "roles/pip"]
 	path = roles/pip
 	url = git@github.com:bobbyrenwick/ansible-pip.git
-[submodule "UpdatedDocker"]
-	path = roles/docker
+[submodule "roles/docker-marklee77"]
+	path = roles/docker-marklee77
 	url = git@github.com:marklee77/ansible-role-docker.git
+[submodule "roles/mhamrah/docker"]
+	path = roles/mhamrah/docker
+	url = https://github.com/mhamrah/ansible-docker
