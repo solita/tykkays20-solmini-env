@@ -10,6 +10,7 @@
     - { role: mhamrah/docker }
     - docker-confirm
     - hello
+
   tasks:
     # https://github.com/docker/distribution/blob/master/docs/deploying.md
     - name: docker-registry ~ 72 MB
@@ -22,8 +23,7 @@
     - name: front-rev-proxy ~ 70 MB
       docker:
         name: front-rev-proxy
-        volumes:
-            - /var/run/docker.sock:/tmp/docker.sock
+        volumes: /var/run/docker.sock:/tmp/docker.sock
         ports: "80:80"
         image: jwilder/nginx-proxy
         name: nginx-proxy
@@ -39,38 +39,15 @@
         name: jenkins-master
         restart_policy: always
 
-    - name: dev-tykkays20 ~ 52 MB
+    - name: tykkays20 application servers ~ 52 MB
       docker:
-        name: dev-tykkays20
-        volumes:
-            - /data/hello/usr/share/nginx/html:/usr/share/nginx/html:ro
-        env: "VIRTUAL_HOST=dev.{{ domain }}"
+        name: "{{ item }}-tykkays20"
+        volumes: /data/hello/usr/share/nginx/html:/usr/share/nginx/html:ro
+        env: "VIRTUAL_HOST={{ item }}.{{ domain }}"
         image: nginx:latest
         restart_policy: always
-
-    - name: test-tykkays20 (should have been cached by now)
-      docker:
-        name: test-tykkays20
-        volumes:
-            - /data/hello/usr/share/nginx/html:/usr/share/nginx/html:ro
-        env: "VIRTUAL_HOST=test.{{ domain }}"
-        image: nginx:latest
-        restart_policy: always
-
-    - name: qa-tykkays20 (should have been cached by now)
-      docker:
-        name: qa-tykkays20
-        volumes:
-            - /data/hello/usr/share/nginx/html:/usr/share/nginx/html:ro
-        env: "VIRTUAL_HOST=qa.{{ domain }}"
-        image: nginx:latest
-        restart_policy: always
-
-    - name: prod-tykkays20 (should have been cached by now)
-      docker:
-        name: prod-tykkays20
-        volumes:
-            - /data/hello/usr/share/nginx/html:/usr/share/nginx/html:ro
-        env: "VIRTUAL_HOST=prod.{{ domain }}"
-        image: nginx:latest
-        restart_policy: always
+      with_items:
+        - dev
+        - test
+        - qa
+        - prod
