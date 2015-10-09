@@ -16,7 +16,6 @@
     - name: docker-registry ~ 72 MB
       docker:
         name: docker-registry
-        ports: "5000:5000"
         image: registry:2
         restart_policy: always
 
