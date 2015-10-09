@@ -18,6 +18,7 @@
         name: docker-registry
         image: registry:2
         restart_policy: always
+        state: reloaded
 
     - name: front-rev-proxy ~ 70 MB
       docker:
@@ -27,6 +28,7 @@
         image: jwilder/nginx-proxy
         name: nginx-proxy
         restart_policy: always
+        state: reloaded
 
     - name: jenkins-master ~ 689 MB
       docker:
@@ -37,6 +39,7 @@
         image: sirkkalap/jenkins-swarm-w-git-manual:latest
         name: jenkins-master
         restart_policy: always
+        state: reloaded
 
     - name: tykkays20 application servers ~ 52 MB
       docker:
@@ -45,6 +48,7 @@
         env: "VIRTUAL_HOST={{ item }}.{{ domain }}"
         image: nginx:latest
         restart_policy: always
+        state: reloaded
       with_items:
         - dev
         - test
