@@ -43,7 +43,7 @@
 
     - name: tykkays20 application servers ~ 52 MB
       docker:
-        name: "{{ item }}-tykkays20"
+        name: "{{ item }}"
         volumes: /data/hello/usr/share/nginx/html:/usr/share/nginx/html:ro
         env: "VIRTUAL_HOST={{ item }}.{{ domain }}"
         image: nginx:latest
