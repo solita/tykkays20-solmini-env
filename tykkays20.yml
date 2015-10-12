@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: master
   sudo: yes
 
   # docker-confirm is a workaround for RHEL docker-py issue
@@ -12,6 +12,10 @@
     - hello
 
   tasks:
+    - name: set docker host hostname
+      hostname:
+        name: "{{ nodename }}"
+
     # https://github.com/docker/distribution/blob/master/docs/deploying.md
     - name: docker-registry ~ 72 MB
       docker:
@@ -54,3 +58,18 @@
         - test
         - qa
         - prod
+
+- hosts: slave
+  sudo: yes
+
+  # docker-confirm is a workaround for RHEL docker-py issue
+  # see: https://blog.confirm.ch/docker-ansible-on-rhel-centos-7/
+  roles:
+    # - { role: docker-confirm, when: ansible_os_family == 'RedHat' }
+    # - { role: docker-marklee77, when: ansible_os_family != 'RedHat' }
+    - { role: mhamrah/docker }
+    - docker-confirm
+  tasks:
+    - name: set docker host hostname
+      hostname:
+        name: "{{ nodename }}"

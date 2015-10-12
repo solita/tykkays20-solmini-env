@@ -1,5 +1,12 @@
-[dev]
+[master]
 solmini.tykkays20.solita.fi
 
-[dev:vars]
+[slave]
+slave01.tykkays20.solita.fi
+
+[master:vars]
 domain="solmini.tykkays20.solita.fi"
+nodename="solmini.tykkays20.solita.fi"
+
+[slave:vars]
+nodename="slave01.tykkays20.solita.fi"
