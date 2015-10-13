@@ -2,24 +2,19 @@
 
 Minimalistinen Solitan infraan nivoutuva projekti-infra.
 
-Toteutus yksinkertainen Shell-skripti, joka ajetaan RHEL7 koneessa ylläpito-
-oikeuksin.
+Toteutus on ansible-playbook, joka ajetaan dev-inventory tiedostossa mainituille kahdelle koneelle.
 
 ![Solita MINI deploy](Solita MINI deploy.png)
 
 ## Vaatimukset
 
-RHEL7, internet, levytilaa, ylläpito-oikeudet, DNS cname *.tykkays20.solita.fi osoittamaan palvelimelle
-tai clienteille hosts tiedosto
+CentOS/RHEL7, internet-yhteys, levytilaa ~ 3Gb, ylläpito-oikeudet, DNS cname `*.HS.solita.fi` osoittamaan palvelimelle tai clienteille hosts tiedosto, jonne jokainen nimi kirjataan osoittamaan kohdepalvelimeen.
 
-
-
-ssh-tunnus, jolla on wheel group kohdepalvelimella
+ssh-tunnus, jolla on wheel-group (sudo oikeus) kohdepalvelimella.
 
 ## Clone & Run
 
-Ansible riippuvuuksien kansiot ovat git subproject:ja, eli niiden saamiseksi versionhallinnasta pitää
-projekti kloonata komennolla
+Ansible riippuvuuksien kansiot ovat git subproject:ja, eli niiden saamiseksi versionhallinnasta pitää projekti kloonata komennolla
 
 `[petrisi@bonaqua ~]$ git clone --recursive ...`
 
@@ -44,10 +39,16 @@ Suorita skripti:
 
 , joka asentaa:
 
-- Dockerin
-- nginx front reverse proxyn virtual host automaatilla
-- (dev|test|qa|prod).solmini.tykkays20.solita.fi demo palvelut (nginx), ja laittaa sinne tarjolle Hello, world! sivun.
-- Jenkins CI palvelimen (jenkins.solmini.tykkays20.solita.fi)
+Master koneelle (dev-inventory):
+ - Dockerin + Docker ansible modulin tarvitsemat riippuvuudet
+ - nginx front reverse proxyn virtual host automaatilla
+ - (dev|test|qa|prod).solmini.tykkays20.solita.fi demo palvelut (nginx), ja laittaa sinne tarjolle Hello, world! sivun.
+ - Jenkins CI palvelimen (jenkins.solmini.tykkays20.solita.fi)
+
+Slave koneelle
+ - Dockerin + Docker ansible modulin tarvitsemat riippuvuudet
+
+Slaven käynnistys pitää tehdä vielä käsin slave-koneella, koska Ansible docker moduli ei tue slaven tarvitsemia komentoriviargumentteja.
 
 Asennus kestää Jenkinsin osalta hetkisen, kun ladataan 689 Mt image.
 
@@ -57,8 +58,7 @@ Käy selaimella osotteessa:
 
 ## Todo
 
-- Jenkins swarm slave ohje
 - Jenkins jobien konfiguroinnin järkevä toteutus
 - Vaihtoehtoinen esimerkkisovellus, jossa vaikkapa python + tietokanta
 - Deploy pipeline, jossa sovellus paketoidaan konttiin ja sovelluskontti paketoidaan edelleen ympäristökohtaiseen konttiin, joka deployataan kyseiseen ympäristöön.
-- Salaisuuksien hallintamalli, jossa mm. tuki asiakkaan luotettavaan salaisuuden paketoimiseen ja käyttöön tuotannossa. Tässä Solitalla ei saa olla mahdollisuutta salaisuuden avaamiseen.
+- Salaisuuksien hallintamalli, jossa mm. tuki asiakkaan luotettavaan salaisuuden paketoimiseen ja käyttöön tuotannossa. Tässä Solitalla ei saa olla mahdollisuutta tuotannon salaisuuksien avaamiseen.
