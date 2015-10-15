@@ -12,9 +12,6 @@
     - hello
 
   tasks:
-    - name: set docker host hostname
-      hostname:
-        name: "{{ nodename }}"
 
     # https://github.com/docker/distribution/blob/master/docs/deploying.md
     - name: docker-registry ~ 72 MB
@@ -69,7 +66,3 @@
     # - { role: docker-marklee77, when: ansible_os_family != 'RedHat' }
     - { role: mhamrah/docker }
     - docker-confirm
-  tasks:
-    - name: set docker host hostname
-      hostname:
-        name: "{{ nodename }}"
