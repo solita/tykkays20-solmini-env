@@ -2,13 +2,16 @@
 
 ## Yleistä
 
-Tykkäys 2.0 on pelkistetty web-sovellusprojektin kehitys alusta, joka tarjoaa projektitiimille nopeasti jaetun laadunvarmistus- , continous delivery- ja demo-ympäristön. 
+Tykkäys 2.0 on pelkistetty web-sovellusprojektin kehitys alusta, joka tarjoaa projektitiimille nopeasti jaetun laadunvarmistus- , continous delivery- ja demo-ympäristön.
 
 Perinteisesti näiden ympäristöjen pystytys ja ylläpito on vaatinut projektin alkuvaiheessa useiden henkilötyöpäivien panosta ja kestänyt kalenteriajassa viikkoja. Tykkäys 2.0:n tavoitteena on puristaa tämä työ- ja kalenteriaika noin 20 minuttiin.
 
 Lisähyötynä muodostettava ympäristö on paremmin toistettavissa ja kahdennettavissa. Edelleen ympäristön kuvaus noudattaa projektin elinkaaren muiden vaiheiden kannalta yhtenäistä tyyliä ja tekniikkaa, josta toivotaan olevan apua projektin siirtyessä alkuvaiheista tuotantoon ja ylläpitoon.
 
-## Toteutus 
+Tykkäys 2.0 projektin lähdekoodi on saatavilla osoitteesta:
+https://github.com/solita/tykkays20-solmini-env
+
+## Toteutus
 
 Toteutus on ansible-playbook, joka ajetaan dev-inventory tiedostossa mainituille kahdelle koneelle. Sisäisesti alusta käyttää docker-kontteja, jotta pienet virtuaalikoneetkin riittävät kaikkien palveluiden ajamiseen.
 
