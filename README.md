@@ -27,32 +27,22 @@ Ansible riippuvuuksien kansiot ovat git subproject:ja, eli niiden saamiseksi ver
 
 `[user@hallinta ~]$ git clone --recursive https://github.com/solita/tykkays20-solmini-env.git`
 
-Hallittavalle koneelle on Ansiblen käyttöä varten luotava tunnus ja annettava sille sudo oikeudet.
+Yksinkertaisuuden vuoksi alustan asennuksessa käytetään root-tunnusta.
 CentOS7/RHEL7:ssa tämä menee näin:
 
+Hallittavalle koneelle on kopioitava hallitsevan koneen ssh-avain, jotta ansible pystyy suorittamaan siellä asennuksen.
 ````bash
-[root@hallittava1 ~]# useradd centos
-[root@hallittava1 ~]# passwd centos
-Vaihdetaan käyttäjän centos salasana.
-Uusi salasana:
-Anna uudelleen uusi salasana:
-passwd: kaikki todennuspoletit päivitetty.
-[root@hallittava1 ~]# usermod -aG wheel centos
-````
-
-Edelleen hallittavalle koneelle on kopioitava hallitsevan koneen ssh-avain, jotta ansible pystyy suorittamaan siellä asennuksen.
-````bash
-[user@hallinta ~]$ ssh-copy-id centos@hallittava1.ali.domain.fi
-[user@hallinta ~]$ ssh-copy-id centos@hallittava2.ali.domain.fi
+[user@hallinta ~]$ ssh-copy-id root@hallittava1.ali.domain.fi
+[user@hallinta ~]$ ssh-copy-id root@hallittava2.ali.domain.fi
 ````
 
 Asennettavien koneiden (master ja slave) nimet pitää muokata `dev-inventory` tiedostoon:
 
 ````yaml
 [master]
-hallittava1.ali.domain.fi
+hallittava1.ali.domain.fi ansible_ssh_user=root
 [slave]
-hallittava2.ali.domain.fi
+hallittava2.ali.domain.fi ansible_ssh_user=root
 [master:vars]
 domain="ali.domain.fi"
 ````
@@ -60,7 +50,7 @@ domain="ali.domain.fi"
 Ympäristön asennus tapahtuu suorittamalla skripti:
 
 ````bash
-[petrisi@bonaqua ~]$ ansible-playbook -i dev-inventory -u centos --ask-become-pass tykkays20.yml
+[petrisi@bonaqua ~]$ ansible-playbook -i dev-inventory tykkays20.yml
 ````
 
 , joka asentaa:
@@ -89,4 +79,4 @@ Käy selaimella osotteessa:
 - Deploy pipeline, jossa sovellus paketoidaan konttiin ja sovelluskontti paketoidaan edelleen ympäristökohtaiseen konttiin, joka deployataan kyseiseen ympäristöön.
 - Salaisuuksien hallintamalli, jossa mm. tuki asiakkaan luotettavaan salaisuuden paketoimiseen ja käyttöön tuotannossa. Tässä Solitalla ei saa olla mahdollisuutta tuotannon salaisuuksien avaamiseen.
 - Imagejen optimointi, jotta turhaa levytilaa ei kuluisi. Samalla Jenkins imagen muuttaminen puhtaaksi Dockerfile-muotoon, jos mahdollista nyt.
-- Ohjeistus docker repositoryn käyttämiseksi cachena, jotta minimoitaisiin internetliikenne alustaa kehitettäessä ja silloin , kun alustalla on useita projekteja käyttäjina.
+- Ohjeistus docker repositoryn käyttämiseksi cachena, jotta minimoitaisiin internetliikenne alustaa kehitettäessä ja silloin , kun alustalla on useita projekteja käyttäjinä.

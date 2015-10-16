@@ -1,6 +1,5 @@
 ---
 - hosts: master
-  sudo: yes
 
   # docker-confirm is a workaround for RHEL docker-py issue
   # see: https://blog.confirm.ch/docker-ansible-on-rhel-centos-7/

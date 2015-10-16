@@ -1,12 +1,7 @@
 [master]
-solmini.tykkays20.solita.fi
-
+solmini.tykkays20.solita.fi ansible_ssh_user=root
 [slave]
-slave01.tykkays20.solita.fi
+slave01.tykkays20.solita.fi ansible_ssh_user=root
 
 [master:vars]
 domain="solmini.tykkays20.solita.fi"
-nodename="solmini.tykkays20.solita.fi"
-
-[slave:vars]
-nodename="slave01.tykkays20.solita.fi"
